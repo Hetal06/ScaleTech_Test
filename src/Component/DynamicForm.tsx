@@ -11,7 +11,7 @@ interface FormProps {
 
 const DynamicForm: React.FC<FormProps> = ({ formConfig, initialData, onSubmit }) => {
     const [formData, setFormData] = useState(initialData || {});
-    const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({}); // Track touched fields
+    const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
         localStorage.setItem('formData', JSON.stringify(formData));
@@ -28,47 +28,27 @@ const DynamicForm: React.FC<FormProps> = ({ formConfig, initialData, onSubmit })
         });
     };
 
-    // const handleSubmit = (event: React.FormEvent) => {
-    //     event.preventDefault();
-
-    //     const allFieldsTouched: Record<string, boolean> = {};
-    //     formConfig.form.groups.forEach((group: any) => {
-    //         group.fields.forEach((field: any) => {
-    //             allFieldsTouched[field.name] = true;
-    //         });
-    //     });
-    //     setTouchedFields(allFieldsTouched); // Mark all fields as touched
-
-    //     toast.success('Form submitted successfully!');
-    //     onSubmit(formData);
-    // };
-
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-
-        // Mark all fields as touched to trigger validation
         const allFieldsTouched: Record<string, boolean> = {};
-        let formIsValid = true; // Track if the form is valid
+        let formIsValid = true;
 
         formConfig.form.groups.forEach((group: any) => {
             group.fields.forEach((field: any) => {
                 allFieldsTouched[field.name] = true;
-
-                // Check if the field is required and its value is missing or invalid
                 if (field.required && (!formData[field.name] || formData[field.name].length === 0)) {
-                    formIsValid = false; // Mark form as invalid if any required field is not filled
+                    formIsValid = false;
                 }
             });
         });
 
-        setTouchedFields(allFieldsTouched); // Mark all fields as touched
+        setTouchedFields(allFieldsTouched);
 
         if (formIsValid) {
-            // If form is valid, submit the data
+
             toast.success('Form submitted successfully!');
-            onSubmit(formData); // Call the onSubmit function with form data
+            onSubmit(formData);
         } else {
-            // If form is not valid, show an error message
             toast.error('Please fill in all required fields before submitting.');
         }
     };
@@ -79,7 +59,7 @@ const DynamicForm: React.FC<FormProps> = ({ formConfig, initialData, onSubmit })
                 {formConfig.form.groups.map((group: any, groupIndex: number) => (
                     <Grid item xs={12} key={groupIndex} >
 
-                        <Card elevation={3} style={{ marginBottom: '20px' }}> {/* Apply card styling */}
+                        <Card elevation={3} style={{ marginBottom: '20px' }}>
 
                             <CardContent>
                                 <Typography style={{ marginBottom: '20px' }} variant="h5" color="secondary" gutterBottom>
@@ -91,7 +71,7 @@ const DynamicForm: React.FC<FormProps> = ({ formConfig, initialData, onSubmit })
                                             <Field
                                                 field={field}
                                                 value={formData[field.name] || ''}
-                                                touched={touchedFields[field.name] || false} // Pass touched state
+                                                touched={touchedFields[field.name] || false}
                                                 onChange={handleChange}
                                             />
                                         </Grid>

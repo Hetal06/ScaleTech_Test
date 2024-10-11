@@ -46,7 +46,7 @@ const Field: React.FC<FieldProps> = ({ field, value, touched, onChange }) => {
                 <TextField
                     fullWidth
                     label={field.label}
-                    type={field.name === "phoneNumber" ? "tel" : field.type} // Use "tel" for phone number
+                    type={field.name === "phoneNumber" ? "tel" : field.type}
                     name={field.name}
                     value={value}
                     placeholder={field.placeholder}
@@ -59,7 +59,7 @@ const Field: React.FC<FieldProps> = ({ field, value, touched, onChange }) => {
                     }}
                     color="secondary"
                     focused
-                    error={isError || isPhoneNumberError} // Show error for required and phone number validation
+                    error={isError || isPhoneNumberError}
                     helperText={
                         isPhoneNumberError
                             ? "Please enter a valid mobile number (10 digits)"
@@ -112,8 +112,8 @@ const Field: React.FC<FieldProps> = ({ field, value, touched, onChange }) => {
                     onChange={handleChange}
                     color="secondary"
                     focused
-                    error={isError} // Show error
-                    helperText={isError ? `${field.label} is required` : ''} // Error message
+                    error={isError}
+                    helperText={isError ? `${field.label} is required` : ''}
                 />
             );
 
